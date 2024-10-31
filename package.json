@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "clean": "git clean -xdf",
-    "prebuild": "npx zodify --out-dir ./src/schemas",
+    "prebuild": "npx ts-to-zod src/Person.ts src/schemas/Person.ts",
     "lint": "npx ts-standard --fix src/*.ts",
     "build": "tsc --build",
     "prestart": "npm run build",
