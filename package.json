@@ -1,0 +1,23 @@
+{
+  "name": "zoddemo",
+  "version": "1.0.0",
+  "main": "dist/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "clean" : "git clean -xdf",
+    "prebuild" : "npx zodify --out-dir ./src/schemas",
+    "lint" : "npx ts-standard --fix src/*.ts",
+    "build" : "tsc --build",
+    "prestart" : "npm run build",
+    "start" : "node dist/app.js",
+    "run" : "node dist/app.js",
+    "build:clean": "npm run clean && npm i &&  npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "target": "ES2015",
+        "moduleResolution": "node",
+        "module": "CommonJS",
+        "allowJs": true,
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "esModuleInterop": true,
+        "incremental": true,
+        "tsBuildInfoFile": "dist/.tsbuildinfo",
+        "strictNullChecks": true
+        
+    }
+}
