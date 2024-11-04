@@ -2,9 +2,9 @@
     "compilerOptions": {
         "alwaysStrict": true,
         "noImplicitAny": true,
-        "target": "ES2015",
+        "target": "ES6",
         "moduleResolution": "node",
-        "module": "CommonJS",
+        "module": "ES6",
         "allowJs": true,
         "rootDir": "./src",
         "outDir": "./dist",
@@ -12,6 +12,8 @@
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
         "strictNullChecks": true
-        
-    }
+    },
+    "include": [
+        "./src/*"
+    ]
 }
