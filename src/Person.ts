@@ -1,8 +1,5 @@
-import { iPersonSchema } from './schemas/Person'
+import { iPersonSchema } from './Person._schema'
 
-/**
- * @schema
- */
 export interface IPerson {
   name: string
   age?: number | null

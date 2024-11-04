@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "clean": "git clean -xdf",
-    "prebuild": "npx ts-to-zod src/Person.ts src/schemas/Person.ts",
+    "prebuild": "npx ts-to-zod src/Person.ts src/Person._schema.ts",
     "lint": "npx ts-standard --fix src/*.ts",
     "build": "tsc --build",
     "prestart": "npm run build",
