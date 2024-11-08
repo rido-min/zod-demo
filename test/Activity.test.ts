@@ -1,7 +1,8 @@
 import assert from 'assert'
 import { describe, it } from 'node:test'
 import { ZodError } from 'zod'
-import { Activity, ActivityType, IActivity } from '../src/Activity/Activity'
+import { Activity, ActivityType, ChannelAccount, IActivity, RoleTypes } from '../src/Activity/Activity'
+
 
 describe('Activity type instances', () => {
     it('use ctor with type enum', () => {
@@ -30,21 +31,22 @@ describe('Activity type instances', () => {
     })
 
     it('literal with type message and text and channelId', () => {
+        const from : ChannelAccount = {
+            id : '234',
+            name: 'myName'
+        }
         const a: IActivity = { 
             type: ActivityType.message, 
             text : 'my text', 
             channelId : '123', 
-            from : { 
-                id: '123', 
-                name : 'channel '
-            } 
+            from 
         }
         assert.strictEqual(a.type, 'message')
         assert.strictEqual(a.type, ActivityType.message)
         assert.strictEqual(a.text, 'my text')
         assert.strictEqual(a.channelId, '123')
-        assert.strict(a.from?.id, '123')
-        assert.strict(a.from?.name, 'channel')
+        assert.strict(a.from?.id, '234')
+        assert.strict(a.from?.name, 'myName')
     })
 
 
@@ -74,7 +76,7 @@ describe('Activity type instances', () => {
 })
 
 describe('Activity json deserialization', () => {
-    it('Deserialize with known type and text', () => {
+    it('Deserialize with known type, text, and from', () => {
         const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo" } }'
         const a1 : IActivity = Activity.fromJson(json)
         assert.strictEqual(a1.type, 'message')
@@ -82,6 +84,22 @@ describe('Activity json deserialization', () => {
         assert.strictEqual(a1.text, 'my Text')
         assert.strictEqual(a1.channelId, '123')
         assert.strictEqual(a1.xx, undefined)
+        assert.strictEqual(a1.from?.id, '321')
+        assert.strictEqual(a1.from?.name, 'yo')
+        assert.strictEqual(a1.from.role, undefined)
+    })
+
+    it('Deserialize with known type, text, and from with role', () => {
+        const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo", "role" : "user" } }'
+        const a1 : IActivity = Activity.fromJson(json)
+        assert.strictEqual(a1.type, 'message')
+        assert.strictEqual(a1.type, ActivityType.message)
+        assert.strictEqual(a1.text, 'my Text')
+        assert.strictEqual(a1.channelId, '123')
+        assert.strictEqual(a1.xx, undefined)
+        assert.strictEqual(a1.from?.id, '321')
+        assert.strictEqual(a1.from?.name, 'yo')
+        assert.strictEqual(a1.from.role, RoleTypes.User)
     })
 
     it('Deserialize with unknown type and text', () => {
@@ -90,6 +108,7 @@ describe('Activity json deserialization', () => {
         assert.strictEqual(a1.type, 'myType')
         assert.strictEqual(a1.text, 'my Text')
         assert.strictEqual(a1.xx, undefined)
+        assert.strictEqual(a1.from, undefined)
     })
 
     it('Deserialize with type bool throws', () => {
@@ -118,7 +137,8 @@ describe('Activity object deserialization', () => {
             text : "my Text",
             from: {
                 id : '123',
-                name : 'myChannel'
+                name : 'myChannel',
+                role : RoleTypes.Bot
             } 
         }
         const a1 : IActivity = Activity.fromObject(obj)
@@ -128,6 +148,8 @@ describe('Activity object deserialization', () => {
         assert.strictEqual(a1.xx, undefined)
         assert.strictEqual(a1.from?.id, '123')
         assert.strictEqual(a1.from?.name, 'myChannel')
+        assert.strictEqual(a1.from?.role, 'bot')
+        assert.strictEqual(a1.from?.role, RoleTypes.Bot)
     })
 
     it('Deserialize with unknown type and text', () => {
@@ -136,6 +158,9 @@ describe('Activity object deserialization', () => {
         assert.strictEqual(a1.type, 'myType')
         assert.strictEqual(a1.text, 'my Text')
         assert.strictEqual(a1.xx, undefined)
+        assert.strictEqual(a1.from, undefined)
+        // @ts-ignore
+        assert.strictEqual(a1.from?.id, undefined)
     })
 
     it('Deserialize with type bool throws', () => {

@@ -8,7 +8,7 @@ class Activity implements IActivity {
     type: ActivityType | string
     text?: string | unknown
     channelId?: string | unknown
-    from: ChannelAccount
+    from: ChannelAccount | never
     [x: string]: unknown
 
     constructor(t: ActivityType | string) {
