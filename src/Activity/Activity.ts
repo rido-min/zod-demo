@@ -1,12 +1,14 @@
 import { ActivityType } from "./ActivityType.js";
 import { IActivity } from "./IActivity.js";
 import { iActivitySchema } from "./IActivity._schema.js"
+import { ChannelAccount } from "./ChannelAccount.js";
 
 class Activity implements IActivity {
     
     type: ActivityType | string
     text?: string | unknown
     channelId?: string | unknown
+    from: ChannelAccount
     [x: string]: unknown
 
     constructor(t: ActivityType | string) {
@@ -20,4 +22,4 @@ class Activity implements IActivity {
     }
 }
 
-export { IActivity, ActivityType, Activity }
+export { IActivity, ActivityType, Activity, ChannelAccount }

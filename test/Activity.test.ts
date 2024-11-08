@@ -17,7 +17,15 @@ describe('Activity type instances', () => {
     })
 
     it('literal with type message and text and channelId', () => {
-        const a: IActivity = { type: ActivityType.message, text : 'my text', channelId : '123' }
+        const a: IActivity = { 
+            type: ActivityType.message, 
+            text : 'my text', 
+            channelId : '123', 
+            from : { 
+                id: '123', 
+                name : 'channel '
+            } 
+        }
         assert.strictEqual(a.type, 'message')
         assert.strictEqual(a.type, ActivityType.message)
         assert.strictEqual(a.text, 'my text')
