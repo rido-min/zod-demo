@@ -114,6 +114,13 @@ describe('Activity json deserialization', () => {
     }, ZodError)
   })
 
+  it('Deserialize with from.role as bool throws', () => {
+    const json = '{ "type" : "message", "text" : "my Text", "from" : { "id" : "321", "name" : "yo", "role" : true } }'
+    assert.throws(() => {
+      const a1: IActivity = Activity.fromJson(json)
+    }, ZodError)
+  })
+
   it('Deserialize with channelId bool does not throws', () => {
     const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : true }' // optional fields can use any primitive
     const a1: IActivity = Activity.fromJson(json1)
