@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { describe, it } from 'node:test'
 import { ZodError } from 'zod'
-import { Activity, ActivityType, ChannelAccount, IActivity, RoleType } from '../src/Activity/Activity'
+import { Activity, ActivityType, ChannelAccount, IActivity, RoleType } from '../src/Activity/Activity.js'
 
 
 describe('Activity type instances', () => {

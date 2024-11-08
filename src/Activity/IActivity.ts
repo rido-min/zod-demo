@@ -1,10 +1,12 @@
 import { ActivityType } from "./ActivityType.js";
-import { ChannelAccount } from "./ChannelAccount.js";
+import { ChannelAccount, RoleType } from "./ChannelAccount.js";
 
-export interface IActivity {
+interface IActivity {
     type : ActivityType | string
     text? : string | unknown
     channelId?: string | unknown
     from?: ChannelAccount
     [x: string] : unknown
 }
+
+export { IActivity, RoleType, ChannelAccount, ActivityType }

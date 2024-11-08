@@ -1,6 +1,6 @@
 import { RoleType } from "./RoleType.js"
 
-export interface ChannelAccount {
+interface ChannelAccount {
     id: string
     name: string
     aadObjectId?: string
@@ -8,4 +8,4 @@ export interface ChannelAccount {
     // properties? : unknown
 }
 
-export { RoleType }
+export { RoleType, ChannelAccount }
