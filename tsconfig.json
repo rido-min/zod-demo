@@ -9,7 +9,7 @@
         "module": "ES6",
         "allowJs": true,
         "rootDirs": [ "src/", "test/"],
-        "outDir": "./dist/",
+        "outDir": "dist/",
         "esModuleInterop": true,
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
