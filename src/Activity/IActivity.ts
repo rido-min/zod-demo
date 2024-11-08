@@ -5,7 +5,7 @@ interface IActivity {
   type: ActivityType | string
   text?: string | unknown
   channelId?: string | unknown
-  from?: ChannelAccount
+  from?: ChannelAccount | undefined
   [x: string]: unknown
 }
 

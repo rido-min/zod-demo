@@ -3,6 +3,7 @@
         "alwaysStrict": true,
         "noImplicitAny": true,
         "declaration": true,
+        "strict": true,
         "target": "ES6",
         "moduleResolution": "Node",
         "module": "ES6",

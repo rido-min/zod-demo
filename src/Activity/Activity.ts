@@ -5,11 +5,12 @@ class Activity implements IActivity {
   type: ActivityType | string
   text?: string | unknown
   channelId?: string | unknown
-  from: ChannelAccount | never
+  from: ChannelAccount | undefined
   [x: string]: unknown
 
   constructor (t: ActivityType | string) {
     this.type = t
+    this.from = undefined
   }
 
   static fromJson (json: string): IActivity {
