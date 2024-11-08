@@ -16,6 +16,19 @@ describe('Activity type instances', () => {
         assert.notStrictEqual(a.type, ActivityType.message)
     })
 
+
+    it('literal with type message and text and no channelId', () => {
+        const a: IActivity = { 
+            type: ActivityType.message, 
+            text : 'my text', 
+            channelId : '123'
+        }
+        assert.strictEqual(a.type, 'message')
+        assert.strictEqual(a.type, ActivityType.message)
+        assert.strictEqual(a.text, 'my text')
+        assert.strictEqual(a.channelId, '123')
+    })
+
     it('literal with type message and text and channelId', () => {
         const a: IActivity = { 
             type: ActivityType.message, 
@@ -30,6 +43,8 @@ describe('Activity type instances', () => {
         assert.strictEqual(a.type, ActivityType.message)
         assert.strictEqual(a.text, 'my text')
         assert.strictEqual(a.channelId, '123')
+        assert.strict(a.from?.id, '123')
+        assert.strict(a.from?.name, 'channel')
     })
 
 
@@ -110,7 +125,7 @@ describe('Activity object deserialization', () => {
         assert.strictEqual(a1.type, 'message')
         assert.strictEqual(a1.type, ActivityType.message)
         assert.strictEqual(a1.text, 'my Text')
-        //assert.strictEqual(a1.xx, undefined)
+        assert.strictEqual(a1.xx, undefined)
         assert.strictEqual(a1.from?.id, '123')
         assert.strictEqual(a1.from?.name, 'myChannel')
     })
