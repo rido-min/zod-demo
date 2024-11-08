@@ -97,6 +97,7 @@ describe('Activity json deserialization', () => {
     assert.strictEqual(a1.from?.id, '321')
     assert.strictEqual(a1.from?.name, 'yo')
     assert.strictEqual(a1.from.role, RoleType.User)
+    assert.strictEqual(a1.from.role, 'user')
   })
 
   it('Deserialize with unknown type and text', () => {
@@ -135,14 +136,15 @@ describe('Activity json deserialization', () => {
 
 describe('Activity object deserialization', () => {
   it('Deserialize with known type and text', () => {
+    const from: ChannelAccount = {
+      id: '123',
+      name: 'myChannel',
+      role: RoleType.Bot
+    }
     const obj: IActivity = {
-      type: 'message',
+      type: ActivityType.Message,
       text: 'my Text',
-      from: {
-        id: '123',
-        name: 'myChannel',
-        role: RoleType.Bot
-      }
+      from
     }
     const a1: IActivity = Activity.fromObject(obj)
     assert.strictEqual(a1.type, 'message')
