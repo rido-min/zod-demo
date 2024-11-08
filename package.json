@@ -4,12 +4,10 @@
   "main": "dist/app.js",
   "type": "commonjs",
   "scripts": {
-    "clean": "git clean -xdf",
-    "prebuild": "npx ts-to-zod src/Person.ts src/Person._schema.ts",
+    "clean": "rm -rf dist/",
+    "prebuildXX": "npx ts-to-zod src/Person.ts src/Person._schema.ts",
     "lint": "npx ts-standard --fix src/*.ts",
     "build": "tsc --build",
-    "prestart": "npm run build",
-    "start": "node dist/app.js",
     "run": "node dist/app.js",
     "build:clean": "npm run clean && npm i &&  npm run build"
   },
@@ -21,6 +19,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/node": "^22.9.0",
     "typescript": "^5.6.3"
   }
 }
