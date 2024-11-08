@@ -18,7 +18,6 @@ class Activity {
 
   constructor (t: ActivityType | string) {
     this.type = t
-    this.from = undefined
   }
 
   static fromJson (json: string): Activity {
