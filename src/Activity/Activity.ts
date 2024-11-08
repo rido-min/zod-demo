@@ -12,6 +12,9 @@ class Activity implements IActivity {
     static fromJson(json: string) : IActivity {
         return iActivitySchema.parse(JSON.parse(json))
     }
+    static fromObject(o: object) : IActivity {
+        return iActivitySchema.parse(o)
+    }
 }
 
 export { IActivity, ActivityType, Activity }
