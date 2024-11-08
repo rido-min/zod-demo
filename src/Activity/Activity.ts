@@ -1,7 +1,7 @@
 import { ActivityType } from "./ActivityType.js";
 import { IActivity } from "./IActivity.js";
 import { iActivitySchema } from "./IActivity._schema.js"
-import { ChannelAccount } from "./ChannelAccount.js";
+import { ChannelAccount, RoleTypes } from "./ChannelAccount.js";
 
 class Activity implements IActivity {
     
@@ -14,7 +14,7 @@ class Activity implements IActivity {
     constructor(t: ActivityType | string) {
         this.type = t
     }
-    
+
     static fromJson(json: string) : IActivity {
         return iActivitySchema.parse(JSON.parse(json))
     }
@@ -24,4 +24,4 @@ class Activity implements IActivity {
     }
 }
 
-export { IActivity, ActivityType, Activity, ChannelAccount }
+export { IActivity, ActivityType, Activity, ChannelAccount, RoleTypes }
