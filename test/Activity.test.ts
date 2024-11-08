@@ -123,14 +123,18 @@ describe('Activity json deserialization', () => {
     }, ZodError)
   })
 
-  it('Deserialize with channelId bool does not throws', () => {
-    const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : true }' // optional fields can use any primitive
-    const a1: Activity = Activity.fromJson(json1)
-    assert.strictEqual(a1.channelId, true)
+  it('Deserialize with channelId bool should throw', () => {
+    const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : true }' 
+    assert.throws(() => {
+      const a1: Activity = Activity.fromJson(json1)
+    }, ZodError)
+  })
 
-    const json2 = '{ "type" : "message", "text" : "my Text", "channelId" : null }' // optional fields can use any primitive
-    const a2: Activity = Activity.fromJson(json2)
-    assert.strictEqual(a2.channelId, null)
+  it('Deserialize with channelId null should throw', () => {
+    const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : null }' 
+    assert.throws(() => {
+      const a1: Activity = Activity.fromJson(json1)
+    }, ZodError)
   })
 })
 

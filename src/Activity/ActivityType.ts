@@ -1,5 +1,5 @@
 import { z } from 'zod'
-export const activityTypeSchema = z.enum([
+export const activityTypeZodSchema = z.enum([
   'message',
   'contactRelationUpdate',
   'conversationUpdate',

@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import { RoleType, roleTypesSchema } from './RoleType.js'
+import { RoleType, roleTypeZodSchema } from './RoleType.js'
 
-const channelAccountSchema = z.object({
+const channelAccountZodSchema = z.object({
   id: z.string(),
   name: z.string(),
   aadObjectId: z.string().optional(),
-  role: z.union([roleTypesSchema, z.string()]).optional(),
+  role: z.union([roleTypeZodSchema, z.string()]).optional(),
   properties: z.unknown().optional()
 })
 
@@ -17,4 +17,4 @@ interface ChannelAccount {
   // properties? : unknown
 }
 
-export { RoleType, ChannelAccount, channelAccountSchema }
+export { RoleType, ChannelAccount, channelAccountZodSchema }

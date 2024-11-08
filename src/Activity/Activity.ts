@@ -1,18 +1,18 @@
 import { z } from 'zod'
-import { ActivityType, activityTypeSchema } from './ActivityType.js'
-import { ChannelAccount, RoleType, channelAccountSchema } from './ChannelAccount.js'
+import { ActivityType, activityTypeZodSchema } from './ActivityType.js'
+import { ChannelAccount, RoleType, channelAccountZodSchema } from './ChannelAccount.js'
 
-const ActivityZodSchema = z.object({
-  type: z.union([activityTypeSchema, z.string()]),
-  text: z.optional(z.union([z.string(), z.unknown()])),
-  channelId: z.optional(z.union([z.string(), z.unknown()])),
-  from: z.optional(channelAccountSchema)
+const activityZodSchema = z.object({
+  type: z.union([activityTypeZodSchema, z.string()]),
+  text: z.optional(z.string()),
+  channelId: z.optional(z.string()),
+  from: z.optional(channelAccountZodSchema)
 })
 
 class Activity {
   type: ActivityType | string
-  text?: string | unknown
-  channelId?: string | unknown
+  text?: string 
+  channelId?: string 
   from?: ChannelAccount
   [x: string]: unknown
 
@@ -26,7 +26,7 @@ class Activity {
   }
 
   static fromObject (o: object): Activity {
-    return ActivityZodSchema.parse(o)
+    return activityZodSchema.parse(o)
   }
 }
 
