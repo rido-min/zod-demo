@@ -1,11 +1,12 @@
+import { ActivityType } from './ActivityType.js'
+import { ChannelAccount, RoleType } from './ChannelAccount.js'
 import { iActivitySchema } from './IActivity._schema.js'
-import { IActivity, ActivityType, ChannelAccount, RoleType } from './IActivity.js'
 
-class Activity implements IActivity {
+class Activity {
   type: ActivityType | string
   text?: string | unknown
   channelId?: string | unknown
-  from: ChannelAccount | undefined
+  from?: ChannelAccount | undefined
   [x: string]: unknown
 
   constructor (t: ActivityType | string) {
@@ -13,13 +14,13 @@ class Activity implements IActivity {
     this.from = undefined
   }
 
-  static fromJson (json: string): IActivity {
+  static fromJson (json: string): Activity {
     return iActivitySchema.parse(JSON.parse(json))
   }
 
-  static fromObject (o: object): IActivity {
+  static fromObject (o: object): Activity {
     return iActivitySchema.parse(o)
   }
 }
 
-export { IActivity, ActivityType, Activity, ChannelAccount, RoleType }
+export { ActivityType, Activity, ChannelAccount, RoleType }
