@@ -44,8 +44,8 @@ describe('Activity type instances', () => {
     assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.text, 'my text')
     assert.strictEqual(a.channelId, '123')
-    assert.strict(a.from?.id, '234')
-    assert.strict(a.from?.name, 'myName')
+    assert.strictEqual(a.from?.id, '234')
+    assert.strictEqual(a.from?.name, 'myName')
   })
 
   it('literal with type message and no text', () => {

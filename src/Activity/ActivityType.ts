@@ -1,3 +1,25 @@
+import { z } from 'zod'
+export const activityTypeSchema = z.enum([
+  'message',
+  'contactRelationUpdate',
+  'conversationUpdate',
+  'typing',
+  'endOfConversation',
+  'event',
+  'invoke',
+  'invokeResponse',
+  'deleteUserData',
+  'messageUpdate',
+  'messageDelete',
+  'installationUpdate',
+  'messageReaction',
+  'suggestion',
+  'trace',
+  'handoff',
+  'command',
+  'commandResult',
+])
+
 export enum ActivityType {
   Message = 'message',
   ContactRelationUpdate = 'contactRelationUpdate',
