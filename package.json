@@ -9,7 +9,8 @@
     "lint": "npx ts-standard --fix src/*.ts",
     "build": "tsc --build",
     "run": "node dist/app.js",
-    "build:clean": "npm run clean && npm i &&  npm run build"
+    "build:clean": "npm run clean && npm i &&  npm run build",
+    "test" : "node --test dist/test/*.test.js"
   },
   "keywords": [],
   "author": "",
