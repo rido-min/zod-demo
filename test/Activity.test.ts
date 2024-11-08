@@ -181,7 +181,17 @@ describe('Activity object deserialization', () => {
   })
 
   it('Deserialize with type bool throws', () => {
-    const obj = { type: false, text: 'my Text' }
+    // @ts-expect-error
+    const obj : IActivity = { type: false, text: 'my Text' }
+    assert.throws(() => {
+      const a1: IActivity = Activity.fromObject(obj)
+    }, ZodError)
+  })
+
+
+  it('Deserialize with number bool throws', () => {
+    // @ts-expect-error
+    const obj : IActivity= { type: 2, text: 'my Text' }
     assert.throws(() => {
       const a1: IActivity = Activity.fromObject(obj)
     }, ZodError)
