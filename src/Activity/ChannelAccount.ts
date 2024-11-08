@@ -9,5 +9,5 @@ export interface ChannelAccount {
     name: string
     aadObjectId?: string
     role?: RoleTypes | string
-    properties? : unknown
+    // properties? : unknown
 }

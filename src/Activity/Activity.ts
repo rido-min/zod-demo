@@ -14,9 +14,11 @@ class Activity implements IActivity {
     constructor(t: ActivityType | string) {
         this.type = t
     }
+    
     static fromJson(json: string) : IActivity {
         return iActivitySchema.parse(JSON.parse(json))
     }
+
     static fromObject(o: object) : IActivity {
         return iActivitySchema.parse(o)
     }

@@ -60,7 +60,7 @@ describe('Activity type instances', () => {
 
 describe('Activity json deserialization', () => {
     it('Deserialize with known type and text', () => {
-        const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123" }'
+        const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo" } }'
         const a1 : IActivity = Activity.fromJson(json)
         assert.strictEqual(a1.type, 'message')
         assert.strictEqual(a1.type, ActivityType.message)
@@ -98,12 +98,21 @@ describe('Activity json deserialization', () => {
 
 describe('Activity object deserialization', () => {
     it('Deserialize with known type and text', () => {
-        const obj = { type : "message", text : "my Text" }
+        const obj: IActivity = { 
+            type : "message", 
+            text : "my Text",
+            from: {
+                id : '123',
+                name : 'myChannel'
+            } 
+        }
         const a1 : IActivity = Activity.fromObject(obj)
         assert.strictEqual(a1.type, 'message')
         assert.strictEqual(a1.type, ActivityType.message)
         assert.strictEqual(a1.text, 'my Text')
-        assert.strictEqual(a1.xx, undefined)
+        //assert.strictEqual(a1.xx, undefined)
+        assert.strictEqual(a1.from?.id, '123')
+        assert.strictEqual(a1.from?.name, 'myChannel')
     })
 
     it('Deserialize with unknown type and text', () => {
