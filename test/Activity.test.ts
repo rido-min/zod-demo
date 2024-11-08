@@ -5,26 +5,26 @@ import { Activity, ActivityType, ChannelAccount, IActivity, RoleType } from '../
 
 describe('Activity type instances', () => {
   it('use ctor with type enum', () => {
-    const a: IActivity = new Activity(ActivityType.message)
+    const a: IActivity = new Activity(ActivityType.Message)
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.from, undefined)
   })
 
   it('use ctor with type string', () => {
     const a: IActivity = new Activity('mycustomtype')
     assert.strictEqual(a.type, 'mycustomtype')
-    assert.notStrictEqual(a.type, ActivityType.message)
+    assert.notStrictEqual(a.type, ActivityType.Message)
   })
 
   it('literal with type message and text and no channelId', () => {
     const a: IActivity = {
-      type: ActivityType.message,
+      type: ActivityType.Message,
       text: 'my text',
       channelId: '123'
     }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.text, 'my text')
     assert.strictEqual(a.channelId, '123')
   })
@@ -35,13 +35,13 @@ describe('Activity type instances', () => {
       name: 'myName'
     }
     const a: IActivity = {
-      type: ActivityType.message,
+      type: ActivityType.Message,
       text: 'my text',
       channelId: '123',
       from
     }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.text, 'my text')
     assert.strictEqual(a.channelId, '123')
     assert.strict(a.from?.id, '234')
@@ -49,17 +49,17 @@ describe('Activity type instances', () => {
   })
 
   it('literal with type message and no text', () => {
-    const a: IActivity = { type: ActivityType.message }
+    const a: IActivity = { type: ActivityType.Message }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.text, undefined)
     assert.strictEqual(a.channelId, undefined)
   })
 
   it('literal with type message and no text and extra field', () => {
-    const a: IActivity = { type: ActivityType.message, myProp: 3 }
+    const a: IActivity = { type: ActivityType.Message, myProp: 3 }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.text, undefined)
     assert.strictEqual(a.myProp, 3)
   })
@@ -77,7 +77,7 @@ describe('Activity json deserialization', () => {
     const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo" } }'
     const a1: IActivity = Activity.fromJson(json)
     assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, ActivityType.message)
+    assert.strictEqual(a1.type, ActivityType.Message)
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.channelId, '123')
     assert.strictEqual(a1.xx, undefined)
@@ -90,7 +90,7 @@ describe('Activity json deserialization', () => {
     const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo", "role" : "user" } }'
     const a1: IActivity = Activity.fromJson(json)
     assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, ActivityType.message)
+    assert.strictEqual(a1.type, ActivityType.Message)
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.channelId, '123')
     assert.strictEqual(a1.xx, undefined)
@@ -146,7 +146,7 @@ describe('Activity object deserialization', () => {
     }
     const a1: IActivity = Activity.fromObject(obj)
     assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, ActivityType.message)
+    assert.strictEqual(a1.type, ActivityType.Message)
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.from?.id, '123')
@@ -159,6 +159,18 @@ describe('Activity object deserialization', () => {
     const obj = { type: 'myType', text: 'my Text' }
     const a1: IActivity = Activity.fromObject(obj)
     assert.strictEqual(a1.type, 'myType')
+    assert.strictEqual(a1.text, 'my Text')
+    assert.strictEqual(a1.xx, undefined)
+    assert.strictEqual(a1.from, undefined)
+    // @ts-expect-error
+    assert.strictEqual(a1.from?.id, undefined)
+  })
+
+  it('Deserialize with known type 2 and text', () => {
+    const obj = { type: ActivityType.CommandResult, text: 'my Text' }
+    const a1: IActivity = Activity.fromObject(obj)
+    assert.strictEqual(a1.type, 'commandResult')
+    assert.strictEqual(a1.type, ActivityType.CommandResult)
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.from, undefined)
