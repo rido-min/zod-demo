@@ -1,3 +1,3 @@
 export enum ActivityType {
-    message = 'message'
+  message = 'message'
 }
