@@ -16,11 +16,12 @@ describe('Activity type instances', () => {
         assert.notStrictEqual(a.type, ActivityType.message)
     })
 
-    it('literal with type message and text', () => {
-        const a: IActivity = { type: ActivityType.message, text : 'my text' }
+    it('literal with type message and text and channelId', () => {
+        const a: IActivity = { type: ActivityType.message, text : 'my text', channelId : '123' }
         assert.strictEqual(a.type, 'message')
         assert.strictEqual(a.type, ActivityType.message)
         assert.strictEqual(a.text, 'my text')
+        assert.strictEqual(a.channelId, '123')
     })
 
 
@@ -29,6 +30,7 @@ describe('Activity type instances', () => {
         assert.strictEqual(a.type, 'message')
         assert.strictEqual(a.type, ActivityType.message)
         assert.strictEqual(a.text, undefined)
+        assert.strictEqual(a.channelId, undefined)
     })
 
     it('literal with type message and no text and extra field', () => {
@@ -50,11 +52,12 @@ describe('Activity type instances', () => {
 
 describe('Activity json deserialization', () => {
     it('Deserialize with known type and text', () => {
-        const json = '{ "type" : "message", "text" : "my Text" }'
+        const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123" }'
         const a1 : IActivity = Activity.fromJson(json)
         assert.strictEqual(a1.type, 'message')
         assert.strictEqual(a1.type, ActivityType.message)
         assert.strictEqual(a1.text, 'my Text')
+        assert.strictEqual(a1.channelId, '123')
         assert.strictEqual(a1.xx, undefined)
     })
 
@@ -71,6 +74,16 @@ describe('Activity json deserialization', () => {
         assert.throws(() => {
             const a1 : IActivity = Activity.fromJson(json)
         }, ZodError)
+    })
+
+    it('Deserialize with channelId bool does not throws', () => {
+        const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : true }' // optional fields can use any primitive
+        const a1 : IActivity = Activity.fromJson(json1)
+        assert.strictEqual(a1.channelId, true)
+
+        const json2 = '{ "type" : "message", "text" : "my Text", "channelId" : null }' // optional fields can use any primitive
+        const a2 : IActivity = Activity.fromJson(json2)
+        assert.strictEqual(a2.channelId, null)
     })
 })
 
