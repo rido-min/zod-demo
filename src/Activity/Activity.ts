@@ -1,7 +1,8 @@
 import { ActivityType } from "./ActivityType.js";
 import { IActivity } from "./IActivity.js";
 import { iActivitySchema } from "./IActivity._schema.js"
-import { ChannelAccount, RoleTypes } from "./ChannelAccount.js";
+import { ChannelAccount, RoleType } from "./ChannelAccount.js";
+
 
 class Activity implements IActivity {
     
@@ -24,4 +25,4 @@ class Activity implements IActivity {
     }
 }
 
-export { IActivity, ActivityType, Activity, ChannelAccount, RoleTypes }
+export { IActivity, ActivityType, Activity, ChannelAccount, RoleType }

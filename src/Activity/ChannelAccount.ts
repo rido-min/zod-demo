@@ -1,13 +1,11 @@
-export enum RoleTypes {
-    User = 'user',
-    Bot = 'bot',
-    Skill = 'skill',
-}
+import { RoleType } from "./RoleType.js"
 
 export interface ChannelAccount {
     id: string
     name: string
     aadObjectId?: string
-    role?: RoleTypes | string
+    role?: RoleType | string
     // properties? : unknown
 }
+
+export { RoleType }

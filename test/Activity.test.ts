@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { describe, it } from 'node:test'
 import { ZodError } from 'zod'
-import { Activity, ActivityType, ChannelAccount, IActivity, RoleTypes } from '../src/Activity/Activity'
+import { Activity, ActivityType, ChannelAccount, IActivity, RoleType } from '../src/Activity/Activity'
 
 
 describe('Activity type instances', () => {
@@ -99,7 +99,7 @@ describe('Activity json deserialization', () => {
         assert.strictEqual(a1.xx, undefined)
         assert.strictEqual(a1.from?.id, '321')
         assert.strictEqual(a1.from?.name, 'yo')
-        assert.strictEqual(a1.from.role, RoleTypes.User)
+        assert.strictEqual(a1.from.role, RoleType.User)
     })
 
     it('Deserialize with unknown type and text', () => {
@@ -138,7 +138,7 @@ describe('Activity object deserialization', () => {
             from: {
                 id : '123',
                 name : 'myChannel',
-                role : RoleTypes.Bot
+                role : RoleType.Bot
             } 
         }
         const a1 : IActivity = Activity.fromObject(obj)
@@ -149,7 +149,7 @@ describe('Activity object deserialization', () => {
         assert.strictEqual(a1.from?.id, '123')
         assert.strictEqual(a1.from?.name, 'myChannel')
         assert.strictEqual(a1.from?.role, 'bot')
-        assert.strictEqual(a1.from?.role, RoleTypes.Bot)
+        assert.strictEqual(a1.from?.role, RoleType.Bot)
     })
 
     it('Deserialize with unknown type and text', () => {
