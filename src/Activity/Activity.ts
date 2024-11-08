@@ -1,6 +1,6 @@
 import { ActivityType } from './ActivityType.js'
 import { ChannelAccount, RoleType } from './ChannelAccount.js'
-import { iActivitySchema } from './IActivity._schema.js'
+import { ActivityZodSchema } from './Activity.zod.js'
 
 class Activity {
   type: ActivityType | string
@@ -15,11 +15,11 @@ class Activity {
   }
 
   static fromJson (json: string): Activity {
-    return iActivitySchema.parse(JSON.parse(json))
+    return ActivityZodSchema.parse(JSON.parse(json))
   }
 
   static fromObject (o: object): Activity {
-    return iActivitySchema.parse(o)
+    return ActivityZodSchema.parse(o)
   }
 }
 

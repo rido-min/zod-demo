@@ -11,7 +11,7 @@ export const channelAccountSchema = z.object({
   properties: z.unknown().optional()
 })
 
-export const iActivitySchema = z.object({
+export const ActivityZodSchema = z.object({
   type: z.union([activityTypeSchema, z.string()]),
   text: z.optional(z.union([z.string(), z.unknown()])),
   channelId: z.optional(z.union([z.string(), z.unknown()])),
