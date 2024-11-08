@@ -8,6 +8,7 @@ describe('Activity type instances', () => {
     const a: IActivity = new Activity(ActivityType.message)
     assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.from, undefined)
   })
 
   it('use ctor with type string', () => {
