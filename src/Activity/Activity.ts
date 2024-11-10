@@ -3,7 +3,7 @@ import { ActivityType, activityTypeZodSchema } from './ActivityType.js'
 import { ChannelAccount, RoleType, channelAccountZodSchema } from './ChannelAccount.js'
 
 const activityZodSchema = z.object({
-  type: z.union([activityTypeZodSchema, z.string()]),
+  type: z.union([activityTypeZodSchema, z.string().min(1)]),
   text: z.optional(z.string()),
   channelId: z.optional(z.string()),
   from: z.optional(channelAccountZodSchema)
@@ -17,6 +17,15 @@ class Activity {
   [x: string]: unknown
 
   constructor (t: ActivityType | string) {
+    if (t === undefined) {
+      throw new Error('Invalid ActivityType: undefined')
+    }
+    if (t === null) {
+      throw new Error('Invalid ActivityType: null')
+    }
+    if ((typeof t === 'string') && (t.length === 0)) {
+      throw new Error('Invalid ActivityType: empty string')
+    }
     this.type = t
   }
 
@@ -25,7 +34,7 @@ class Activity {
   }
 
   static fromObject (o: object): Activity {
-    return activityZodSchema.parse(o)
+    return activityZodSchema.passthrough().parse(o)
   }
 }
 

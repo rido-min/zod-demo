@@ -17,6 +17,19 @@ describe('Activity type instances', () => {
     assert.notStrictEqual(a.type, ActivityType.Message)
   })
 
+  it('ctor fails with type string empty', () => {
+    assert.throws(() => {
+      const a: Activity = new Activity('')
+    }, Error)
+  })
+
+  it('ctor fails with type string null', () => {
+    assert.throws(() => {
+      // @ts-expect-error
+      const a: Activity = new Activity(null)
+    }, Error)
+  })
+
   it('literal with type message and text and no channelId', () => {
     const a: Activity = {
       type: ActivityType.Message,
@@ -101,16 +114,38 @@ describe('Activity json deserialization', () => {
   })
 
   it('Deserialize with unknown type and text', () => {
-    const json = '{ "type" : "myType", "text" : "my Text" }'
+    const json = '{ "type" : "myType", "text" : "my Text", "customField" : 33 }'
     const a1: Activity = Activity.fromJson(json)
     assert.strictEqual(a1.type, 'myType')
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.from, undefined)
+    assert.strictEqual(a1.customField, 33)
   })
 
   it('Deserialize with type bool throws', () => {
     const json = '{ "type" : false, "text" : "my Text" }'
+    assert.throws(() => {
+      const a1: Activity = Activity.fromJson(json)
+    }, ZodError)
+  })
+
+  it('Deserialize with type null throws', () => {
+    const json = '{ "type" : null, "text" : "my Text" }'
+    assert.throws(() => {
+      const a1: Activity = Activity.fromJson(json)
+    }, ZodError)
+  })
+
+  it('Deserialize without type throws', () => {
+    const json = '{ "text" : "my Text" }'
+    assert.throws(() => {
+      const a1: Activity = Activity.fromJson(json)
+    }, ZodError)
+  })
+
+  it('Deserialize with type empty throws', () => {
+    const json = '{ "type" : "", "text" : "my Text" }'
     assert.throws(() => {
       const a1: Activity = Activity.fromJson(json)
     }, ZodError)
@@ -148,6 +183,7 @@ describe('Activity object deserialization', () => {
     const obj: Activity = {
       type: ActivityType.Message,
       text: 'my Text',
+      myField: 3,
       from
     }
     const a1: Activity = Activity.fromObject(obj)
@@ -155,6 +191,7 @@ describe('Activity object deserialization', () => {
     assert.strictEqual(a1.type, ActivityType.Message)
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.xx, undefined)
+    assert.strictEqual(a1.myField, 3)
     assert.strictEqual(a1.from?.id, '123')
     assert.strictEqual(a1.from?.name, 'myChannel')
     assert.strictEqual(a1.from?.role, 'bot')
@@ -184,9 +221,24 @@ describe('Activity object deserialization', () => {
     assert.strictEqual(a1.from?.id, undefined)
   })
 
-  it('Deserialize with type bool throws', () => {
+  it('Deserialize without type  throws', () => {
     // @ts-expect-error
-    const obj: Activity = { type: false, text: 'my Text' }
+    const obj: Activity = { text: 'my Text' }
+    assert.throws(() => {
+      const a1: Activity = Activity.fromObject(obj)
+    }, ZodError)
+  })
+
+  it('Deserialize without type  throws', () => {
+    // @ts-expect-error
+    const obj: Activity = { text: 'my Text' }
+    assert.throws(() => {
+      const a1: Activity = Activity.fromObject(obj)
+    }, ZodError)
+  })
+
+  it('Deserialize with empty type  throws', () => {
+    const obj: Activity = { type: '', text: 'my Text' }
     assert.throws(() => {
       const a1: Activity = Activity.fromObject(obj)
     }, ZodError)

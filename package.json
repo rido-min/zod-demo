@@ -1,16 +1,26 @@
 {
   "name": "zoddemo",
-  "version": "1.0.0",
-  "main": "dist/app.js",
-  "type": "module",
+  "version": "1.0.2",
+  "main": "dist/src/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/src/index.js",
+      "require": "./dist/src/index.js"
+    }
+  },
+  "type": "commonjs",
   "scripts": {
     "clean": "rm -rf dist/",
     "lint": "npx ts-standard --fix src/**/*.ts",
     "build": "tsc --build",
     "build:clean": "npm run clean && npm i &&  npm run build",
     "pretest" : "npm run build",
-    "test" : "node --test dist/test/*.test.js"
+    "test" : "node --test dist/test/*.test.js",
+    "prepack" : "npm run build"
   },
+  "files" : [
+    "dist/src/*"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",

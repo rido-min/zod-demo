@@ -6,7 +6,7 @@
         "strict": true,
         "target": "ES6",
         "moduleResolution": "Node",
-        "module": "ES6",
+        "module": "CommonJS",
         "allowJs": true,
         "rootDirs": [ "src/", "test/"],
         "outDir": "dist/",

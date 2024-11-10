@@ -2,7 +2,6 @@ import { strict as assert } from 'assert'
 import { describe, it } from 'node:test'
 import { ChannelAccount, channelAccountZodSchema, RoleType } from '../src/Activity/ChannelAccount.js'
 
-
 describe('ChannelAccount', () => {
   it('should create a ChannelAccount with valid properties', () => {
     const account: ChannelAccount = { id: '123', name: 'user1', role: RoleType.User }
@@ -24,23 +23,23 @@ describe('ChannelAccount', () => {
 })
 
 describe('Channel Account json deserialization', () => {
-    it('Deserialize with known id, name, and role', () => {
-        const json = '{ "id" : "123", "name" : "user1", "role" : "user" }'
-        const account: ChannelAccount = channelAccountZodSchema.parse(JSON.parse(json))
-        assert.equal(account.id, '123')
-        assert.equal(account.name, 'user1')
-        assert.strictEqual(account.role, RoleType.User)
-        assert.strictEqual(account.role, 'user')
-    })
+  it('Deserialize with known id, name, and role', () => {
+    const json = '{ "id" : "123", "name" : "user1", "role" : "user" }'
+    const account: ChannelAccount = channelAccountZodSchema.parse(JSON.parse(json))
+    assert.equal(account.id, '123')
+    assert.equal(account.name, 'user1')
+    assert.strictEqual(account.role, RoleType.User)
+    assert.strictEqual(account.role, 'user')
+  })
 
-    it('Deserialize with known id, name, and bad role', () => {
-        const json = '{ "id" : "123", "name" : "user1", "role" : "new_role" }'
-        const account: ChannelAccount = channelAccountZodSchema.parse(JSON.parse(json))
-        assert.equal(account.id, '123')
-        assert.equal(account.name, 'user1')
-        assert.notEqual(account.role, RoleType.User)
-        assert.strictEqual(account.role, 'new_role')
-    })
+  it('Deserialize with known id, name, and bad role', () => {
+    const json = '{ "id" : "123", "name" : "user1", "role" : "new_role" }'
+    const account: ChannelAccount = channelAccountZodSchema.parse(JSON.parse(json))
+    assert.equal(account.id, '123')
+    assert.equal(account.name, 'user1')
+    assert.notEqual(account.role, RoleType.User)
+    assert.strictEqual(account.role, 'new_role')
+  })
 })
 
 // ...existing code...
