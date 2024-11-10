@@ -11,8 +11,8 @@ const activityZodSchema = z.object({
 
 class Activity {
   type: ActivityType | string
-  text?: string 
-  channelId?: string 
+  text?: string
+  channelId?: string
   from?: ChannelAccount
   [x: string]: unknown
 

@@ -124,14 +124,14 @@ describe('Activity json deserialization', () => {
   })
 
   it('Deserialize with channelId bool should throw', () => {
-    const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : true }' 
+    const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : true }'
     assert.throws(() => {
       const a1: Activity = Activity.fromJson(json1)
     }, ZodError)
   })
 
   it('Deserialize with channelId null should throw', () => {
-    const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : null }' 
+    const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : null }'
     assert.throws(() => {
       const a1: Activity = Activity.fromJson(json1)
     }, ZodError)
@@ -186,16 +186,15 @@ describe('Activity object deserialization', () => {
 
   it('Deserialize with type bool throws', () => {
     // @ts-expect-error
-    const obj : Activity = { type: false, text: 'my Text' }
+    const obj: Activity = { type: false, text: 'my Text' }
     assert.throws(() => {
       const a1: Activity = Activity.fromObject(obj)
     }, ZodError)
   })
 
-
   it('Deserialize with number bool throws', () => {
     // @ts-expect-error
-    const obj : Activity= { type: 2, text: 'my Text' }
+    const obj: Activity = { type: 2, text: 'my Text' }
     assert.throws(() => {
       const a1: Activity = Activity.fromObject(obj)
     }, ZodError)

@@ -17,7 +17,7 @@ export const activityTypeZodSchema = z.enum([
   'trace',
   'handoff',
   'command',
-  'commandResult',
+  'commandResult'
 ])
 
 export enum ActivityType {
