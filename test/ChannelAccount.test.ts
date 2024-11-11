@@ -11,6 +11,28 @@ describe('ChannelAccount', () => {
     assert.strictEqual(account.role, 'user')
   })
 
+  it('should create a ChannelAccount with new properties', () => {
+    const account: ChannelAccount = {
+      id: '123',
+      name: 'user1',
+      role: RoleType.User,
+      aadObjectId: 'aad123',
+      properties: { key: 'value' },
+      givenName: 'John',
+      surname: 'Doe',
+      email: 'john.doe@example.com'
+    }
+    assert.equal(account.id, '123')
+    assert.equal(account.name, 'user1')
+    assert.strictEqual(account.role, RoleType.User)
+    assert.strictEqual(account.role, 'user')
+    assert.equal(account.aadObjectId, 'aad123')
+    assert.deepEqual(account.properties, { key: 'value' })
+    assert.equal(account.givenName, 'John')
+    assert.equal(account.surname, 'Doe')
+    assert.equal(account.email, 'john.doe@example.com')
+  })
+
   it('should throw an error if id is missing', () => {
     // @ts-expect-error
     const account1: ChannelAccount = { name: 'user1' }
@@ -40,6 +62,18 @@ describe('Channel Account json deserialization', () => {
     assert.notEqual(account.role, RoleType.User)
     assert.strictEqual(account.role, 'new_role')
   })
-})
 
-// ...existing code...
+  it('Deserialize with new properties', () => {
+    const json = '{ "id" : "123", "name" : "user1", "role" : "user", "aadObjectId" : "aad123", "properties" : { "key" : "value" }, "givenName" : "John", "surname" : "Doe", "email" : "john.doe@example.com" }'
+    const account: ChannelAccount = channelAccountZodSchema.parse(JSON.parse(json))
+    assert.equal(account.id, '123')
+    assert.equal(account.name, 'user1')
+    assert.strictEqual(account.role, RoleType.User)
+    assert.strictEqual(account.role, 'user')
+    assert.equal(account.aadObjectId, 'aad123')
+    assert.deepEqual(account.properties, { key: 'value' })
+    assert.equal(account.givenName, 'John')
+    assert.equal(account.surname, 'Doe')
+    assert.equal(account.email, 'john.doe@example.com')
+  })
+})

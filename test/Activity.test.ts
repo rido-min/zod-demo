@@ -252,3 +252,97 @@ describe('Activity object deserialization', () => {
     }, ZodError)
   })
 })
+
+describe('Activity new properties', () => {
+  it('should create an Activity with new properties', () => {
+    const a: Activity = {
+      type: ActivityType.Message,
+      text: 'my text',
+      channelId: '123',
+      timestamp: '2023-01-01T00:00:00Z',
+      localTimestamp: '2023-01-01T00:00:00Z',
+      locale: 'en-US',
+      textFormat: 'plain',
+      attachmentLayout: 'list',
+      membersAdded: [{ id: '1', name: 'member1' }],
+      membersRemoved: [{ id: '2', name: 'member2' }],
+      reactionsAdded: [{ type: 'like' }],
+      reactionsRemoved: [{ type: 'dislike' }],
+      topicName: 'topic',
+      historyDisclosed: true
+    }
+    assert.strictEqual(a.type, 'message')
+    assert.strictEqual(a.text, 'my text')
+    assert.strictEqual(a.channelId, '123')
+    assert.strictEqual(a.timestamp, '2023-01-01T00:00:00Z')
+    assert.strictEqual(a.localTimestamp, '2023-01-01T00:00:00Z')
+    assert.strictEqual(a.locale, 'en-US')
+    assert.strictEqual(a.textFormat, 'plain')
+    assert.strictEqual(a.attachmentLayout, 'list')
+    assert.strictEqual(a.membersAdded?.[0].id, '1')
+    assert.strictEqual(a.membersAdded?.[0].name, 'member1')
+    assert.strictEqual(a.membersRemoved?.[0].id, '2')
+    assert.strictEqual(a.membersRemoved?.[0].name, 'member2')
+    assert.strictEqual(a.reactionsAdded?.[0].type, 'like')
+    assert.strictEqual(a.reactionsRemoved?.[0].type, 'dislike')
+    assert.strictEqual(a.topicName, 'topic')
+    assert.strictEqual(a.historyDisclosed, true)
+  })
+
+  it('should deserialize Activity with new properties from JSON', () => {
+    const json = '{ "type" : "message", "text" : "my text", "channelId" : "123", "timestamp" : "2023-01-01T00:00:00Z", "localTimestamp" : "2023-01-01T00:00:00Z", "locale" : "en-US", "textFormat" : "plain", "attachmentLayout" : "list", "membersAdded" : [{ "id" : "1", "name" : "member1" }], "membersRemoved" : [{ "id" : "2", "name" : "member2" }], "reactionsAdded" : [{ "type" : "like" }], "reactionsRemoved" : [{ "type" : "dislike" }], "topicName" : "topic", "historyDisclosed" : true }'
+    const a: Activity = Activity.fromJson(json)
+    assert.strictEqual(a.type, 'message')
+    assert.strictEqual(a.text, 'my text')
+    assert.strictEqual(a.channelId, '123')
+    assert.strictEqual(a.timestamp, '2023-01-01T00:00:00Z')
+    assert.strictEqual(a.localTimestamp, '2023-01-01T00:00:00Z')
+    assert.strictEqual(a.locale, 'en-US')
+    assert.strictEqual(a.textFormat, 'plain')
+    assert.strictEqual(a.attachmentLayout, 'list')
+    assert.strictEqual(a.membersAdded?.[0].id, '1')
+    assert.strictEqual(a.membersAdded?.[0].name, 'member1')
+    assert.strictEqual(a.membersRemoved?.[0].id, '2')
+    assert.strictEqual(a.membersRemoved?.[0].name, 'member2')
+    assert.strictEqual(a.reactionsAdded?.[0].type, 'like')
+    assert.strictEqual(a.reactionsRemoved?.[0].type, 'dislike')
+    assert.strictEqual(a.topicName, 'topic')
+    assert.strictEqual(a.historyDisclosed, true)
+  })
+
+  it('should deserialize Activity with new properties from object', () => {
+    const obj: Activity = {
+      type: ActivityType.Message,
+      text: 'my text',
+      channelId: '123',
+      timestamp: '2023-01-01T00:00:00Z',
+      localTimestamp: '2023-01-01T00:00:00Z',
+      locale: 'en-US',
+      textFormat: 'plain',
+      attachmentLayout: 'list',
+      membersAdded: [{ id: '1', name: 'member1' }],
+      membersRemoved: [{ id: '2', name: 'member2' }],
+      reactionsAdded: [{ type: 'like' }],
+      reactionsRemoved: [{ type: 'dislike' }],
+      topicName: 'topic',
+      historyDisclosed: true
+    }
+    const a: Activity = Activity.fromObject(obj)
+    assert.strictEqual(a.type, 'message')
+    assert.strictEqual(a.text, 'my text')
+    assert.strictEqual(a.channelId, '123')
+    assert.strictEqual(a.timestamp, '2023-01-01T00:00:00Z')
+    assert.strictEqual(a.localTimestamp, '2023-01-01T00:00:00Z')
+    assert.strictEqual(a.locale, 'en-US')
+    assert.strictEqual(a.textFormat, 'plain')
+    assert.strictEqual(a.attachmentLayout, 'list')
+    assert.strictEqual(a.membersAdded?.[0].id, '1')
+    assert.strictEqual(a.membersAdded?.[0].name, 'member1')
+    assert.strictEqual(a.membersRemoved?.[0].id, '2')
+    assert.strictEqual(a.membersRemoved?.[0].name, 'member2')
+    assert.strictEqual(a.reactionsAdded?.[0].type, 'like')
+    assert.strictEqual(a.reactionsRemoved?.[0].type, 'dislike')
+    assert.strictEqual(a.topicName, 'topic')
+    assert.strictEqual(a.historyDisclosed, true)
+  })
+})

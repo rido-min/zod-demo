@@ -17,7 +17,10 @@ export const activityTypeZodSchema = z.enum([
   'trace',
   'handoff',
   'command',
-  'commandResult'
+  'commandResult',
+  'fileUpload',
+  'fileDownload',
+  'locationUpdate'
 ])
 
 export enum ActivityType {
@@ -39,4 +42,7 @@ export enum ActivityType {
   Handoff = 'handoff',
   Command = 'command',
   CommandResult = 'commandResult',
+  FileUpload = 'fileUpload',
+  FileDownload = 'fileDownload',
+  LocationUpdate = 'locationUpdate'
 }
