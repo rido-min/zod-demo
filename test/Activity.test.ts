@@ -9,12 +9,14 @@ describe('Activity type instances', () => {
     assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.from, undefined)
+    assert.strictEqual(a.id, undefined)
   })
 
   it('use ctor with type string', () => {
     const a: Activity = new Activity('mycustomtype')
     assert.strictEqual(a.type, 'mycustomtype')
     assert.notStrictEqual(a.type, ActivityType.Message)
+    assert.strictEqual(a.from, undefined)
   })
 
   it('ctor fails with type string empty', () => {
@@ -49,12 +51,14 @@ describe('Activity type instances', () => {
     }
     const a: Activity = {
       type: ActivityType.Message,
+      id: '111',
       text: 'my text',
       channelId: '123',
       from
     }
     assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.type, ActivityType.Message)
+    assert.strictEqual(a.id, '111')
     assert.strictEqual(a.text, 'my text')
     assert.strictEqual(a.channelId, '123')
     assert.strictEqual(a.from?.id, '234')
@@ -87,10 +91,11 @@ describe('Activity type instances', () => {
 
 describe('Activity json deserialization', () => {
   it('Deserialize with known type, text, and from', () => {
-    const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo" } }'
+    const json = '{ "type" : "message", "id" : "1a", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo" } }'
     const a1: Activity = Activity.fromJson(json)
     assert.strictEqual(a1.type, 'message')
     assert.strictEqual(a1.type, ActivityType.Message)
+    assert.strictEqual(a1.id, '1a')
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.channelId, '123')
     assert.strictEqual(a1.xx, undefined)
@@ -146,6 +151,14 @@ describe('Activity json deserialization', () => {
 
   it('Deserialize with type empty throws', () => {
     const json = '{ "type" : "", "text" : "my Text" }'
+    assert.throws(() => {
+      const a1: Activity = Activity.fromJson(json)
+    }, ZodError)
+  })
+
+
+  it('Deserialize with id as object', () => {
+    const json = '{ "type" : "message", "id" : {}, "text" : "my Text" }'
     assert.throws(() => {
       const a1: Activity = Activity.fromJson(json)
     }, ZodError)
@@ -247,6 +260,14 @@ describe('Activity object deserialization', () => {
   it('Deserialize with number bool throws', () => {
     // @ts-expect-error
     const obj: Activity = { type: 2, text: 'my Text' }
+    assert.throws(() => {
+      const a1: Activity = Activity.fromObject(obj)
+    }, ZodError)
+  })
+
+  it('Deserialize with id bool throws', () => {
+    // @ts-expect-error
+    const obj: Activity = { type: ActivityType.Command, id: true, text: 'my Text' }
     assert.throws(() => {
       const a1: Activity = Activity.fromObject(obj)
     }, ZodError)

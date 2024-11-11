@@ -5,6 +5,7 @@ import { ChannelAccount, RoleType, channelAccountZodSchema } from './ChannelAcco
 const activityZodSchema = z.object({
   type: z.union([activityTypeZodSchema, z.string().min(1)]),
   text: z.optional(z.string()),
+  id: z.optional(z.string().min(1)),
   channelId: z.optional(z.string()),
   from: z.optional(channelAccountZodSchema)
 })
@@ -12,6 +13,7 @@ const activityZodSchema = z.object({
 class Activity {
   type: ActivityType | string
   text?: string
+  id?: string
   channelId?: string
   from?: ChannelAccount
   [x: string]: unknown
