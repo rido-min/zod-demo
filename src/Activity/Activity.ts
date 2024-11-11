@@ -7,7 +7,8 @@ const activityZodSchema = z.object({
   text: z.optional(z.string()),
   id: z.optional(z.string().min(1)),
   channelId: z.optional(z.string()),
-  from: z.optional(channelAccountZodSchema)
+  from: z.optional(channelAccountZodSchema),
+  timestamp: z.optional(z.string().datetime())
 })
 
 class Activity {
@@ -16,6 +17,7 @@ class Activity {
   id?: string
   channelId?: string
   from?: ChannelAccount
+  timestamp?: string | Date
   [x: string]: unknown
 
   constructor (t: ActivityType | string) {
