@@ -7,7 +7,7 @@
         "target": "ES6",
         "moduleResolution": "Node",
         "module": "CommonJS",
-        "allowJs": true,
+        "allowJs": false,
         "rootDirs": [ "src/", "test/"],
         "outDir": "dist/",
         "esModuleInterop": true,

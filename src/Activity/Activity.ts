@@ -1,22 +1,15 @@
 import { z } from 'zod'
-import { ActivityType, activityTypeZodSchema } from './ActivityType.js'
-import { ChannelAccount, RoleType, channelAccountZodSchema } from './ChannelAccount.js'
-
-const activityZodSchema = z.object({
-  type: z.union([activityTypeZodSchema, z.string().min(1)]),
-  text: z.optional(z.string()),
-  id: z.optional(z.string().min(1)),
-  channelId: z.optional(z.string()),
-  from: z.optional(channelAccountZodSchema),
-  timestamp: z.optional(z.string().datetime())
-})
+import { ActivityType, activityTypeZodSchema } from './ActivityType'
+import { ChannelAccount, channelAccountZodSchema } from './ChannelAccount'
+import { RoleType } from './RoleType'
 
 class Activity {
+  
   type: ActivityType | string
   text?: string
   id?: string
   channelId?: string
-  from?: ChannelAccount
+  readonly from?: ChannelAccount
   timestamp?: string | Date
   [x: string]: unknown
 
@@ -38,6 +31,14 @@ class Activity {
   }
 
   static fromObject (o: object): Activity {
+    const activityZodSchema = z.object({
+      type: z.union([activityTypeZodSchema, z.string().min(1)]),
+      text: z.optional(z.string()),
+      id: z.optional(z.string().min(1)),
+      channelId: z.optional(z.string()),
+      from: z.optional(channelAccountZodSchema),
+      timestamp: z.optional(z.string().datetime())
+    })
     return activityZodSchema.passthrough().parse(o)
   }
 }
