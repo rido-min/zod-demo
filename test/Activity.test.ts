@@ -33,7 +33,7 @@ describe('Activity type instances', () => {
   })
 
   it('literal with type message and text and no channelId', () => {
-    const a: Activity = {
+    const a: Partial<Activity> = {
       type: ActivityType.Message,
       text: 'my text',
       channelId: '123'
@@ -49,7 +49,7 @@ describe('Activity type instances', () => {
       id: '234',
       name: 'myName'
     }
-    const a: Activity = {
+    const a: Partial<Activity> = {
       type: ActivityType.Message,
       id: '111',
       text: 'my text',
@@ -66,7 +66,7 @@ describe('Activity type instances', () => {
   })
 
   it('literal with type message and no text', () => {
-    const a: Activity = { type: ActivityType.Message }
+    const a: Partial<Activity> = { type: ActivityType.Message }
     assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.text, undefined)
@@ -74,7 +74,7 @@ describe('Activity type instances', () => {
   })
 
   it('literal with type message and no text and extra field', () => {
-    const a: Activity = { type: ActivityType.Message, myProp: 3 }
+    const a: Partial<Activity> = { type: ActivityType.Message, myProp: 3 }
     assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.text, undefined)
@@ -83,7 +83,7 @@ describe('Activity type instances', () => {
 
   it('literal with type as bool fails and no text and extra field', () => {
     // @ts-expect-error
-    const a: Activity = { type: false, myProp: 3 }
+    const a: Partial<Activity> = { type: false, myProp: 3 }
     assert.strictEqual(a.type, false)
     assert.strictEqual(a.myProp, 3)
   })
@@ -193,7 +193,7 @@ describe('Activity object deserialization', () => {
       name: 'myChannel',
       role: RoleType.Bot
     }
-    const obj: Activity = {
+    const obj: Partial<Activity> = {
       type: ActivityType.Message,
       text: 'my Text',
       myField: 3,
@@ -251,7 +251,7 @@ describe('Activity object deserialization', () => {
   })
 
   it('Deserialize with empty type  throws', () => {
-    const obj: Activity = { type: '', text: 'my Text' }
+    const obj: Partial<Activity> = { type: '', text: 'my Text' }
     assert.throws(() => {
       const a1: Activity = Activity.fromObject(obj)
     }, ZodError)

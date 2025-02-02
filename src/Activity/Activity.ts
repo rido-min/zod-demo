@@ -11,6 +11,7 @@ class Activity {
   channelId?: string
   readonly from?: ChannelAccount
   timestamp?: string | Date
+  data?: Record<string, any>
   [x: string]: unknown
 
   constructor (t: ActivityType | string) {
@@ -39,7 +40,14 @@ class Activity {
       from: z.optional(channelAccountZodSchema),
       timestamp: z.optional(z.string().datetime())
     })
-    return activityZodSchema.passthrough().parse(o)
+    const parsed =  activityZodSchema.passthrough().parse(o)
+    const activity = new Activity(parsed.type)
+    Object.assign(activity, parsed)
+    return activity
+  }
+
+  getReferenceConversation() {
+    return this.from?.id
   }
 }
 
