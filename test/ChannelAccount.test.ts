@@ -6,10 +6,10 @@ const RoleType = roleTypeZodSchema.enum
 
 describe('ChannelAccount', () => {
   it('should create a ChannelAccount with valid properties', () => {
-    const account: ChannelAccount = { id: '123', name: 'user1', role: RoleType.user }
+    const account: ChannelAccount = { id: '123', name: 'user1', role: RoleType.User }
     assert.equal(account.id, '123')
     assert.equal(account.name, 'user1')
-    assert.strictEqual(account.role, RoleType.user)
+    assert.strictEqual(account.role, RoleType.User)
   })
 
   it('should throw an error if id is missing', () => {
@@ -29,7 +29,7 @@ describe('Channel Account json deserialization', () => {
     const account: ChannelAccount = channelAccountZodSchema.parse(JSON.parse(json))
     assert.equal(account.id, '123')
     assert.equal(account.name, 'user1')
-    assert.strictEqual(account.role, RoleType.user)
+    assert.strictEqual(account.role, RoleType.User)
     assert.strictEqual(account.role, 'user')
   })
 
@@ -38,7 +38,7 @@ describe('Channel Account json deserialization', () => {
     const account: ChannelAccount = channelAccountZodSchema.parse(JSON.parse(json))
     assert.equal(account.id, '123')
     assert.equal(account.name, 'user1')
-    assert.notEqual(account.role, RoleType.user)
+    assert.notEqual(account.role, RoleType.User)
     assert.strictEqual(account.role, 'new_role')
   })
 })

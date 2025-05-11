@@ -1,5 +1,11 @@
 import { z } from 'zod'
 
-export const roleTypeZodSchema = z.enum(['user', 'bot', 'skill'])
 
-export type RoleType = z.infer<typeof roleTypeZodSchema>
+export enum RoleType {
+    User = 'user',
+    Bot = 'bot',
+    Skill = 'skill'
+  }
+export const roleTypeZodSchema = z.nativeEnum(RoleType)
+
+

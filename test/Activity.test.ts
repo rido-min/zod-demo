@@ -119,7 +119,7 @@ describe('Activity json deserialization', () => {
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.from?.id, '321')
     assert.strictEqual(a1.from?.name, 'yo')
-    assert.strictEqual(a1.from.role, RoleType.user)
+    assert.strictEqual(a1.from.role, RoleType.User)
     assert.strictEqual(a1.from.role, 'user')
   })
 
@@ -196,7 +196,7 @@ describe('Activity object deserialization', () => {
     const from: ChannelAccount = {
       id: '123',
       name: 'myChannel',
-      role: RoleType.bot
+      role: RoleType.Bot
     }
     const obj: Partial<Activity> = {
       type: 'message',
@@ -213,7 +213,7 @@ describe('Activity object deserialization', () => {
     assert.strictEqual(a1.from?.id, '123')
     assert.strictEqual(a1.from?.name, 'myChannel')
     assert.strictEqual(a1.from?.role, 'bot')
-    assert.strictEqual(a1.from?.role, RoleType.bot)
+    assert.strictEqual(a1.from?.role, RoleType.Bot)
   })
 
   it('Deserialize with unknown type and text', () => {
@@ -247,7 +247,7 @@ describe('Activity object deserialization', () => {
     }, ZodError)
   })
 
-  it('Deserialize without type  throws', () => {
+  it('Deserialize without type and text  throws', () => {
     // @ts-expect-error
     const obj: Activity = { text: 'my Text' }
     assert.throws(() => {
@@ -255,7 +255,7 @@ describe('Activity object deserialization', () => {
     }, ZodError)
   })
 
-  it('Deserialize with empty type  throws', () => {
+  it('Deserialize with empty type and text throws', () => {
     const obj: Partial<Activity> = { type: '', text: 'my Text' }
     assert.throws(() => {
       const a1: Activity = Activity.fromObject(obj)
