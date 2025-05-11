@@ -3,9 +3,7 @@ import { ActivityType, activityTypeZodSchema } from './ActivityType'
 import { ChannelAccount, channelAccountZodSchema } from './ChannelAccount'
 import { RoleType } from './RoleType'
 
-
 class Activity {
-  
   type: ActivityType | string
   text?: string
   id?: string
@@ -43,13 +41,13 @@ class Activity {
       from: z.optional(channelAccountZodSchema),
       timestamp: z.optional(z.string().datetime())
     })
-    const parsed =  activityZodSchema.passthrough().parse(o)
+    const parsed = activityZodSchema.passthrough().parse(o)
     const activity = new Activity(parsed.type)
     Object.assign(activity, parsed)
     return activity
   }
 
-  getReferenceConversation() {
+  getReferenceConversation (): string | undefined {
     return this.from?.id
   }
 }
