@@ -9,9 +9,9 @@ const ActivityType = activityTypeZodSchema.enum
 
 describe('Activity with no data', () => {
   it('Default ctor sets timestamps as undefined', () => {
-    const a: Activity = new Activity(ActivityType.message)
+    const a: Activity = new Activity(ActivityType.Message)
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.data, undefined)
   })
 
@@ -19,7 +19,7 @@ describe('Activity with no data', () => {
     const json = '{ "type" : "message", "data": 123}'
     const a: Activity = Activity.fromJson(json)
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     assert.strictEqual(a.data, 123)
   })
 
@@ -27,7 +27,7 @@ describe('Activity with no data', () => {
     const json = '{ "type" : "message", "data": { "a": 123 }}'
     const a: Activity = Activity.fromJson(json)
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.message)
+    assert.strictEqual(a.type, ActivityType.Message)
     // @ts-ignore
     assert.strictEqual(a.data.a, 123)
   })

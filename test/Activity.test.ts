@@ -5,6 +5,7 @@ import { Activity, ChannelAccount } from '../src/Activity/Activity.js'
 
 import { roleTypeZodSchema } from '../src/Activity/RoleType.js'
 import { activityTypeZodSchema } from '../src/Activity/ActivityType.js'
+import { channel } from 'diagnostics_channel'
 const RoleType = roleTypeZodSchema.enum
 const ActivityType = activityTypeZodSchema.enum
 
@@ -54,13 +55,14 @@ describe('Activity type instances', () => {
       id: '234',
       name: 'myName'
     }
-    const a: Partial<Activity> = {
-      type: 'message',
+    const a: Activity = Activity.fromObject({
+      type: ActivityType.Message,
       id: '111',
       text: 'my text',
       channelId: '123',
+      channelData: { myData: 'myData' },
       from
-    }
+    })
     assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.id, '111')
@@ -68,6 +70,7 @@ describe('Activity type instances', () => {
     assert.strictEqual(a.channelId, '123')
     assert.strictEqual(a.from?.id, '234')
     assert.strictEqual(a.from?.name, 'myName')
+    assert.deepEqual(a.channelData, { myData: 'myData' })
   })
 
   it('literal with type message and no text', () => {
@@ -228,10 +231,10 @@ describe('Activity object deserialization', () => {
   })
 
   it('Deserialize with known type 2 and text', () => {
-    const obj = { type: ActivityType.commandResult, text: 'my Text' }
+    const obj = { type: ActivityType.CommandResult, text: 'my Text' }
     const a1: Activity = Activity.fromObject(obj)
     assert.strictEqual(a1.type, 'commandResult')
-    assert.strictEqual(a1.type, ActivityType.commandResult)
+    assert.strictEqual(a1.type, ActivityType.CommandResult)
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.from, undefined)

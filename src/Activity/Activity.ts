@@ -10,9 +10,11 @@ class Activity {
   text?: string
   id?: string
   channelId?: string
+  channelData?: unknown
   readonly from?: ChannelAccount
   timestamp?: string | Date
   data?: Record<string, any>
+  value?: unknown
   [x: string]: unknown
 
   constructor (t: ActivityType | string) {

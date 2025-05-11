@@ -3,8 +3,6 @@ import { describe, it } from 'node:test'
 import { ZodError } from 'zod'
 import { Activity, ActivityType, ChannelAccount, RoleType } from '../src/Activity/Activity'
 
-import { activityTypeZodSchema } from '../src/Activity/ActivityType'
-const ActivityType = activityTypeZodSchema.enum
 
 describe('ActivityType enum validation', () => {
   Object.values(ActivityType).forEach( type  => {
