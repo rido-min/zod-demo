@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { RoleType, roleTypeZodSchema } from './RoleType.js'
+import { roleTypeZodSchema } from './RoleType.js'
 
 export const channelAccountZodSchema = z.object({
   id: z.string(),
@@ -9,10 +9,12 @@ export const channelAccountZodSchema = z.object({
   properties: z.unknown().optional()
 })
 
-export interface ChannelAccount {
-  id: string
-  name: string
-  aadObjectId?: string
-  role?: RoleType | string
-  // properties? : unknown
-}
+export type ChannelAccount = z.infer<typeof channelAccountZodSchema>
+
+// export interface ChannelAccount {
+//   id: string
+//   name: string
+//   aadObjectId?: string
+//   role?: RoleType | string
+//   // properties? : unknown
+// }

@@ -19,24 +19,24 @@ export const activityTypeZodSchema = z.enum([
   'command',
   'commandResult'
 ])
-
-export enum ActivityType {
-  Message = 'message',
-  ContactRelationUpdate = 'contactRelationUpdate',
-  ConversationUpdate = 'conversationUpdate',
-  Typing = 'typing',
-  EndOfConversation = 'endOfConversation',
-  Event = 'event',
-  Invoke = 'invoke',
-  InvokeResponse = 'invokeResponse',
-  DeleteUserData = 'deleteUserData',
-  MessageUpdate = 'messageUpdate',
-  MessageDelete = 'messageDelete',
-  InstallationUpdate = 'installationUpdate',
-  MessageReaction = 'messageReaction',
-  Suggestion = 'suggestion',
-  Trace = 'trace',
-  Handoff = 'handoff',
-  Command = 'command',
-  CommandResult = 'commandResult',
-}
+export type ActivityType = z.infer<typeof activityTypeZodSchema>
+// export enum ActivityType {
+//   Message = 'message',
+//   ContactRelationUpdate = 'contactRelationUpdate',
+//   ConversationUpdate = 'conversationUpdate',
+//   Typing = 'typing',
+//   EndOfConversation = 'endOfConversation',
+//   Event = 'event',
+//   Invoke = 'invoke',
+//   InvokeResponse = 'invokeResponse',
+//   DeleteUserData = 'deleteUserData',
+//   MessageUpdate = 'messageUpdate',
+//   MessageDelete = 'messageDelete',
+//   InstallationUpdate = 'installationUpdate',
+//   MessageReaction = 'messageReaction',
+//   Suggestion = 'suggestion',
+//   Trace = 'trace',
+//   Handoff = 'handoff',
+//   Command = 'command',
+//   CommandResult = 'commandResult',
+// }
