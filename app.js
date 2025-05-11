@@ -13,7 +13,7 @@ if (activity.from) {
 
 const b = Activity.fromObject(activity)
 
-b.type = ActivityType.Command
+b.type = ActivityType.Trace
 b.id = '222'
 
 console.log(activity)

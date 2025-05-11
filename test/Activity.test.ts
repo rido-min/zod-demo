@@ -1,13 +1,18 @@
 import assert from 'assert'
 import { describe, it } from 'node:test'
 import { ZodError } from 'zod'
-import { Activity, ActivityType, ChannelAccount, RoleType } from '../src/Activity/Activity.js'
+import { Activity, ChannelAccount } from '../src/Activity/Activity.js'
+
+import { roleTypeZodSchema } from '../src/Activity/RoleType.js'
+import { activityTypeZodSchema } from '../src/Activity/ActivityType.js'
+const RoleType = roleTypeZodSchema.enum
+const ActivityType = activityTypeZodSchema.enum
 
 describe('Activity type instances', () => {
   it('use ctor with type enum', () => {
-    const a: Activity = new Activity(ActivityType.Message)
+    const a: Activity = new Activity('message')
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
+    assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.from, undefined)
     assert.strictEqual(a.id, undefined)
   })
@@ -15,7 +20,7 @@ describe('Activity type instances', () => {
   it('use ctor with type string', () => {
     const a: Activity = new Activity('mycustomtype')
     assert.strictEqual(a.type, 'mycustomtype')
-    assert.notStrictEqual(a.type, ActivityType.Message)
+    assert.notStrictEqual(a.type, 'message')
     assert.strictEqual(a.from, undefined)
   })
 
@@ -34,12 +39,12 @@ describe('Activity type instances', () => {
 
   it('literal with type message and text and no channelId', () => {
     const a: Partial<Activity> = {
-      type: ActivityType.Message,
+      type: 'message',
       text: 'my text',
       channelId: '123'
     }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
+    assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.text, 'my text')
     assert.strictEqual(a.channelId, '123')
   })
@@ -50,14 +55,14 @@ describe('Activity type instances', () => {
       name: 'myName'
     }
     const a: Partial<Activity> = {
-      type: ActivityType.Message,
+      type: 'message',
       id: '111',
       text: 'my text',
       channelId: '123',
       from
     }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
+    assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.id, '111')
     assert.strictEqual(a.text, 'my text')
     assert.strictEqual(a.channelId, '123')
@@ -66,17 +71,17 @@ describe('Activity type instances', () => {
   })
 
   it('literal with type message and no text', () => {
-    const a: Partial<Activity> = { type: ActivityType.Message }
+    const a: Partial<Activity> = { type: 'message' }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
+    assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.text, undefined)
     assert.strictEqual(a.channelId, undefined)
   })
 
   it('literal with type message and no text and extra field', () => {
-    const a: Partial<Activity> = { type: ActivityType.Message, myProp: 3 }
+    const a: Partial<Activity> = { type: 'message', myProp: 3 }
     assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
+    assert.strictEqual(a.type, 'message')
     assert.strictEqual(a.text, undefined)
     assert.strictEqual(a.myProp, 3)
   })
@@ -94,7 +99,7 @@ describe('Activity json deserialization', () => {
     const json = '{ "type" : "message", "id" : "1a", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo" } }'
     const a1: Activity = Activity.fromJson(json)
     assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, ActivityType.Message)
+    assert.strictEqual(a1.type, 'message')
     assert.strictEqual(a1.id, '1a')
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.channelId, '123')
@@ -108,13 +113,13 @@ describe('Activity json deserialization', () => {
     const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo", "role" : "user" } }'
     const a1: Activity = Activity.fromJson(json)
     assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, ActivityType.Message)
+    assert.strictEqual(a1.type, 'message')
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.channelId, '123')
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.from?.id, '321')
     assert.strictEqual(a1.from?.name, 'yo')
-    assert.strictEqual(a1.from.role, RoleType.User)
+    assert.strictEqual(a1.from.role, RoleType.user)
     assert.strictEqual(a1.from.role, 'user')
   })
 
@@ -191,24 +196,24 @@ describe('Activity object deserialization', () => {
     const from: ChannelAccount = {
       id: '123',
       name: 'myChannel',
-      role: RoleType.Bot
+      role: RoleType.bot
     }
     const obj: Partial<Activity> = {
-      type: ActivityType.Message,
+      type: 'message',
       text: 'my Text',
       myField: 3,
       from
     }
     const a1: Activity = Activity.fromObject(obj)
     assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, ActivityType.Message)
+    assert.strictEqual(a1.type, 'message')
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.myField, 3)
     assert.strictEqual(a1.from?.id, '123')
     assert.strictEqual(a1.from?.name, 'myChannel')
     assert.strictEqual(a1.from?.role, 'bot')
-    assert.strictEqual(a1.from?.role, RoleType.Bot)
+    assert.strictEqual(a1.from?.role, RoleType.bot)
   })
 
   it('Deserialize with unknown type and text', () => {
@@ -223,10 +228,10 @@ describe('Activity object deserialization', () => {
   })
 
   it('Deserialize with known type 2 and text', () => {
-    const obj = { type: ActivityType.CommandResult, text: 'my Text' }
+    const obj = { type: ActivityType.commandResult, text: 'my Text' }
     const a1: Activity = Activity.fromObject(obj)
     assert.strictEqual(a1.type, 'commandResult')
-    assert.strictEqual(a1.type, ActivityType.CommandResult)
+    assert.strictEqual(a1.type, ActivityType.commandResult)
     assert.strictEqual(a1.text, 'my Text')
     assert.strictEqual(a1.xx, undefined)
     assert.strictEqual(a1.from, undefined)

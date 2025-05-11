@@ -3,6 +3,7 @@ import { ActivityType, activityTypeZodSchema } from './ActivityType'
 import { ChannelAccount, channelAccountZodSchema } from './ChannelAccount'
 import { RoleType } from './RoleType'
 
+
 class Activity {
   
   type: ActivityType | string
