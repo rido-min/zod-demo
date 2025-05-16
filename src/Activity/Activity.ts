@@ -52,4 +52,4 @@ class Activity {
   }
 }
 
-export { ActivityType, Activity, ChannelAccount, RoleType }
+export { ActivityType, Activity, ChannelAccount, RoleType, activityTypeZodSchema }
