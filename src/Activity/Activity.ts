@@ -8,7 +8,7 @@ class Activity {
   text?: string
   id?: string
   channelId?: string
-  channelData?: unknown
+  private _channelData?: unknown
   readonly from?: ChannelAccount
   timestamp?: string | Date
   data?: Record<string, any>
@@ -49,6 +49,14 @@ class Activity {
 
   getReferenceConversation (): string | undefined {
     return this.from?.id
+  }
+
+  get channelData(): unknown {
+    return this._channelData
+  }
+
+  set channelData(value: unknown) {
+    this._channelData = value
   }
 }
 

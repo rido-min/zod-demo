@@ -1,7 +1,6 @@
+import { describe, it, expect } from 'vitest'
 import { Activity, ActivityType } from '../src/Activity/Activity'
 import { TeamsChannelData, teamsChannelDataZodSchema } from '../src/TeamsActivity/teamsChannelData'
-import assert from 'assert'
-import { describe, it } from 'node:test'
 
 describe('TeamsChannelData', () => {
   it('should create a TeamsChannelData with valid properties', () => {
@@ -22,11 +21,11 @@ describe('TeamsChannelData', () => {
       type: ActivityType.Message,
       channelData: channelData
     })
-    assert.strictEqual(a.type, 'message')
+    expect(a.type).toBe('message')
 
     const teamsChannelData = teamsChannelDataZodSchema.parse(a.channelData)
-    assert.strictEqual(teamsChannelData.channel.id, '123')
-    assert.strictEqual(teamsChannelData.channel.name, 'General')
-    assert.strictEqual(teamsChannelData.tenant?.id, '456')
+    expect(teamsChannelData.channel.id).toBe('123')
+    expect(teamsChannelData.channel.name).toBe('General')
+    expect(teamsChannelData.tenant?.id).toBe('456')
   })
 })

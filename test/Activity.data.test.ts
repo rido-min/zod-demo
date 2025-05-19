@@ -1,5 +1,4 @@
-import assert from 'assert'
-import { describe, it } from 'node:test'
+import { describe, it, expect } from 'vitest'
 import { ZodError } from 'zod'
 import { Activity, ChannelAccount, RoleType } from '../src/Activity/Activity'
 
@@ -10,25 +9,25 @@ const ActivityType = activityTypeZodSchema.enum
 describe('Activity with no data', () => {
   it('Default ctor sets timestamps as undefined', () => {
     const a: Activity = new Activity(ActivityType.Message)
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
-    assert.strictEqual(a.data, undefined)
+    expect(a.type).toBe('message')
+    expect(a.type).toBe(ActivityType.Message)
+    expect(a.data).toBeUndefined()
   })
 
   it('data as int', () => {
     const json = '{ "type" : "message", "data": 123}'
     const a: Activity = Activity.fromJson(json)
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
-    assert.strictEqual(a.data, 123)
+    expect(a.type).toBe('message')
+    expect(a.type).toBe(ActivityType.Message)
+    expect(a.data).toBe(123)
   })
 
   it('data as map', () => {
     const json = '{ "type" : "message", "data": { "a": 123 }}'
     const a: Activity = Activity.fromJson(json)
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, ActivityType.Message)
+    expect(a.type).toBe('message')
+    expect(a.type).toBe(ActivityType.Message)
     // @ts-ignore
-    assert.strictEqual(a.data.a, 123)
+    expect(a.data.a).toBe(123)
   })
 })

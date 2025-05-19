@@ -1,5 +1,4 @@
-import assert from 'assert'
-import { describe, it } from 'node:test'
+import { describe, it, expect } from 'vitest'
 import { ZodError } from 'zod'
 import { Activity, ActivityType, ChannelAccount, RoleType } from '../src/Activity/Activity'
 
@@ -8,26 +7,26 @@ describe('ActivityType enum validation', () => {
   Object.values(ActivityType).forEach( type  => {
     it(`should create an Activity with type ${type}`, () => {
       const a: Activity = new Activity(type)
-      assert.strictEqual(a.type, type)
+      expect(a.type).toBe(type)
     })
   })
 
   it('should fail to create an Activity with type null', () => {
-    assert.throws(() => {
+    expect(() => {
       const a: Activity = Activity.fromObject({ type:null})
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('should fail to create an Activity with type empty', () => {
-    assert.throws(() => {
+    expect(() => {
       const a: Activity = Activity.fromObject({ type:''})
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('should fail to create an Activity with type undefined', () => {
-    assert.throws(() => {
+    expect(() => {
       const a: Activity = Activity.fromObject({ })
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 })
 

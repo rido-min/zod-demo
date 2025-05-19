@@ -1,7 +1,7 @@
 import z from 'zod'
 const channelInfoZodSchema = z.object({
-  id: z.string().min(1).optional(),
-  name: z.string().min(1).optional(),
+  id: z.string().min(1),
+  name: z.string().min(1),
   type: z.string().min(1).optional()
 })
 

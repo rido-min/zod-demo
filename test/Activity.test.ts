@@ -1,5 +1,4 @@
-import assert from 'assert'
-import { describe, it } from 'node:test'
+import { describe, it, expect } from 'vitest'
 import { ZodError } from 'zod'
 import { Activity, ChannelAccount } from '../src/Activity/Activity.js'
 
@@ -12,30 +11,30 @@ const ActivityType = activityTypeZodSchema.enum
 describe('Activity type instances', () => {
   it('use ctor with type enum', () => {
     const a: Activity = new Activity('message')
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.from, undefined)
-    assert.strictEqual(a.id, undefined)
+    expect(a.type).toBe('message')
+    expect(a.type).toBe('message')
+    expect(a.from).toBeUndefined()
+    expect(a.id).toBeUndefined()
   })
 
   it('use ctor with type string', () => {
     const a: Activity = new Activity('mycustomtype')
-    assert.strictEqual(a.type, 'mycustomtype')
-    assert.notStrictEqual(a.type, 'message')
-    assert.strictEqual(a.from, undefined)
+    expect(a.type).toBe('mycustomtype')
+    expect(a.type).not.toBe('message')
+    expect(a.from).toBeUndefined()
   })
 
   it('ctor fails with type string empty', () => {
-    assert.throws(() => {
+    expect(() => {
       const a: Activity = new Activity('')
-    }, Error)
+    }).toThrow(Error)
   })
 
   it('ctor fails with type string null', () => {
-    assert.throws(() => {
+    expect(() => {
       // @ts-expect-error
       const a: Activity = new Activity(null)
-    }, Error)
+    }).toThrow(Error)
   })
 
   it('literal with type message and text and no channelId', () => {
@@ -44,10 +43,10 @@ describe('Activity type instances', () => {
       text: 'my text',
       channelId: '123'
     }
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.text, 'my text')
-    assert.strictEqual(a.channelId, '123')
+    expect(a.type).toBe('message')
+    expect(a.type).toBe('message')
+    expect(a.text).toBe('my text')
+    expect(a.channelId).toBe('123')
   })
 
   it('literal with type message and text and channelId', () => {
@@ -63,37 +62,37 @@ describe('Activity type instances', () => {
       channelData: { myData: 'myData' },
       from
     })
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.id, '111')
-    assert.strictEqual(a.text, 'my text')
-    assert.strictEqual(a.channelId, '123')
-    assert.strictEqual(a.from?.id, '234')
-    assert.strictEqual(a.from?.name, 'myName')
-    assert.deepEqual(a.channelData, { myData: 'myData' })
+    expect(a.type).toBe('message')
+    expect(a.type).toBe('message')
+    expect(a.id).toBe('111')
+    expect(a.text).toBe('my text')
+    expect(a.channelId).toBe('123')
+    expect(a.from?.id).toBe('234')
+    expect(a.from?.name).toBe('myName')
+    expect(a.channelData).toEqual({ myData: 'myData' })
   })
 
   it('literal with type message and no text', () => {
     const a: Partial<Activity> = { type: 'message' }
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.text, undefined)
-    assert.strictEqual(a.channelId, undefined)
+    expect(a.type).toBe('message')
+    expect(a.type).toBe('message')
+    expect(a.text).toBeUndefined()
+    expect(a.channelId).toBeUndefined()
   })
 
   it('literal with type message and no text and extra field', () => {
     const a: Partial<Activity> = { type: 'message', myProp: 3 }
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.type, 'message')
-    assert.strictEqual(a.text, undefined)
-    assert.strictEqual(a.myProp, 3)
+    expect(a.type).toBe('message')
+    expect(a.type).toBe('message')
+    expect(a.text).toBeUndefined()
+    expect(a.myProp).toBe(3)
   })
 
   it('literal with type as bool fails and no text and extra field', () => {
-    // @ts-expect-error
+    // @ts-expect-error - Testing invalid type
     const a: Partial<Activity> = { type: false, myProp: 3 }
-    assert.strictEqual(a.type, false)
-    assert.strictEqual(a.myProp, 3)
+    expect(a.type).toBe(false)
+    expect(a.myProp).toBe(3)
   })
 })
 
@@ -101,96 +100,96 @@ describe('Activity json deserialization', () => {
   it('Deserialize with known type, text, and from', () => {
     const json = '{ "type" : "message", "id" : "1a", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo" } }'
     const a1: Activity = Activity.fromJson(json)
-    assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.id, '1a')
-    assert.strictEqual(a1.text, 'my Text')
-    assert.strictEqual(a1.channelId, '123')
-    assert.strictEqual(a1.xx, undefined)
-    assert.strictEqual(a1.from?.id, '321')
-    assert.strictEqual(a1.from?.name, 'yo')
-    assert.strictEqual(a1.from.role, undefined)
+    expect(a1.type).toBe('message')
+    expect(a1.type).toBe('message')
+    expect(a1.id).toBe('1a')
+    expect(a1.text).toBe('my Text')
+    expect(a1.channelId).toBe('123')
+    expect(a1.xx).toBeUndefined()
+    expect(a1.from?.id).toBe('321')
+    expect(a1.from?.name).toBe('yo')
+    expect(a1.from?.role).toBeUndefined()
   })
 
   it('Deserialize with known type, text, and from with role', () => {
     const json = '{ "type" : "message", "text" : "my Text", "channelId" : "123", "from" : { "id" : "321", "name" : "yo", "role" : "user" } }'
     const a1: Activity = Activity.fromJson(json)
-    assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.text, 'my Text')
-    assert.strictEqual(a1.channelId, '123')
-    assert.strictEqual(a1.xx, undefined)
-    assert.strictEqual(a1.from?.id, '321')
-    assert.strictEqual(a1.from?.name, 'yo')
-    assert.strictEqual(a1.from.role, RoleType.User)
-    assert.strictEqual(a1.from.role, 'user')
+    expect(a1.type).toBe('message')
+    expect(a1.type).toBe('message')
+    expect(a1.text).toBe('my Text')
+    expect(a1.channelId).toBe('123')
+    expect(a1.xx).toBeUndefined()
+    expect(a1.from?.id).toBe('321')
+    expect(a1.from?.name).toBe('yo')
+    expect(a1.from?.role).toBe(RoleType.User)
+    expect(a1.from?.role).toBe('user')
   })
 
   it('Deserialize with unknown type and text', () => {
     const json = '{ "type" : "myType", "text" : "my Text", "customField" : 33 }'
     const a1: Activity = Activity.fromJson(json)
-    assert.strictEqual(a1.type, 'myType')
-    assert.strictEqual(a1.text, 'my Text')
-    assert.strictEqual(a1.xx, undefined)
-    assert.strictEqual(a1.from, undefined)
-    assert.strictEqual(a1.customField, 33)
+    expect(a1.type).toBe('myType')
+    expect(a1.text).toBe('my Text')
+    expect(a1.xx).toBeUndefined()
+    expect(a1.from).toBeUndefined()
+    expect(a1.customField).toBe(33)
   })
 
   it('Deserialize with type bool throws', () => {
     const json = '{ "type" : false, "text" : "my Text" }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with type null throws', () => {
     const json = '{ "type" : null, "text" : "my Text" }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize without type throws', () => {
     const json = '{ "text" : "my Text" }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with type empty throws', () => {
     const json = '{ "type" : "", "text" : "my Text" }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
 
   it('Deserialize with id as object', () => {
     const json = '{ "type" : "message", "id" : {}, "text" : "my Text" }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with from.role as bool throws', () => {
     const json = '{ "type" : "message", "text" : "my Text", "from" : { "id" : "321", "name" : "yo", "role" : true } }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with channelId bool should throw', () => {
     const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : true }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json1)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with channelId null should throw', () => {
     const json1 = '{ "type" : "message", "text" : "my Text", "channelId" : null }'
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromJson(json1)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 })
 
@@ -208,76 +207,70 @@ describe('Activity object deserialization', () => {
       from
     }
     const a1: Activity = Activity.fromObject(obj)
-    assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.type, 'message')
-    assert.strictEqual(a1.text, 'my Text')
-    assert.strictEqual(a1.xx, undefined)
-    assert.strictEqual(a1.myField, 3)
-    assert.strictEqual(a1.from?.id, '123')
-    assert.strictEqual(a1.from?.name, 'myChannel')
-    assert.strictEqual(a1.from?.role, 'bot')
-    assert.strictEqual(a1.from?.role, RoleType.Bot)
+    expect(a1.type).toBe('message')
+    expect(a1.type).toBe('message')
+    expect(a1.text).toBe('my Text')
+    expect(a1.xx).toBeUndefined()
+    expect(a1.myField).toBe(3)
+    expect(a1.from?.id).toBe('123')
+    expect(a1.from?.name).toBe('myChannel')
+    expect(a1.from?.role).toBe('bot')
+    expect(a1.from?.role).toBe(RoleType.Bot)
   })
 
   it('Deserialize with unknown type and text', () => {
     const obj = { type: 'myType', text: 'my Text' }
     const a1: Activity = Activity.fromObject(obj)
-    assert.strictEqual(a1.type, 'myType')
-    assert.strictEqual(a1.text, 'my Text')
-    assert.strictEqual(a1.xx, undefined)
-    assert.strictEqual(a1.from, undefined)
-    // @ts-expect-error
-    assert.strictEqual(a1.from?.id, undefined)
+    expect(a1.type).toBe('myType')
+    expect(a1.text).toBe('my Text')
+    expect(a1.xx).toBeUndefined()
+    expect(a1.from).toBeUndefined()
+    expect(a1.from?.id).toBeUndefined()
   })
 
   it('Deserialize with known type 2 and text', () => {
     const obj = { type: ActivityType.CommandResult, text: 'my Text' }
     const a1: Activity = Activity.fromObject(obj)
-    assert.strictEqual(a1.type, 'commandResult')
-    assert.strictEqual(a1.type, ActivityType.CommandResult)
-    assert.strictEqual(a1.text, 'my Text')
-    assert.strictEqual(a1.xx, undefined)
-    assert.strictEqual(a1.from, undefined)
-    // @ts-expect-error
-    assert.strictEqual(a1.from?.id, undefined)
+    expect(a1.type).toBe('commandResult')
+    expect(a1.type).toBe(ActivityType.CommandResult)
+    expect(a1.text).toBe('my Text')
+    expect(a1.xx).toBeUndefined()
+    expect(a1.from).toBeUndefined()
+    expect(a1.from?.id).toBeUndefined()
   })
 
   it('Deserialize without type  throws', () => {
-    // @ts-expect-error
-    const obj: Activity = { text: 'my Text' }
-    assert.throws(() => {
+    const obj = { text: 'my Text' }
+    expect(() => {
       const a1: Activity = Activity.fromObject(obj)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize without type and text  throws', () => {
-    // @ts-expect-error
-    const obj: Activity = { text: 'my Text' }
-    assert.throws(() => {
+    const obj = { text: 'my Text' }
+    expect(() => {
       const a1: Activity = Activity.fromObject(obj)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with empty type and text throws', () => {
     const obj: Partial<Activity> = { type: '', text: 'my Text' }
-    assert.throws(() => {
+    expect(() => {
       const a1: Activity = Activity.fromObject(obj)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with number bool throws', () => {
-    // @ts-expect-error
-    const obj: Activity = { type: 2, text: 'my Text' }
-    assert.throws(() => {
+    const obj = { type: 2, text: 'my Text' }
+    expect(() => {
       const a1: Activity = Activity.fromObject(obj)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 
   it('Deserialize with id bool throws', () => {
-    // @ts-expect-error
-    const obj: Activity = { type: ActivityType.Command, id: true, text: 'my Text' }
-    assert.throws(() => {
+    const obj = { type: ActivityType.Command, id: true, text: 'my Text' }
+    expect(() => {
       const a1: Activity = Activity.fromObject(obj)
-    }, ZodError)
+    }).toThrow(ZodError)
   })
 })
