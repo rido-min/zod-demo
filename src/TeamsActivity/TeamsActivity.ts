@@ -2,8 +2,6 @@ import { Activity, ActivityType } from '../Activity/Activity'
 import { teamsChannelDataZodSchema, TeamsChannelData } from './teamsChannelData'
 
 class TeamsActivity extends Activity {
-  private _teamsChannelData?: unknown
-
   constructor(type: ActivityType | string) {
     super(type)
   }
